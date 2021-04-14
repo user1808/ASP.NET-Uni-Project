@@ -1,0 +1,63 @@
+﻿@model List<(Lista12Semestr5.Models.Article, int)>
+
+@{
+    bool cartEmpty = ViewBag.cartEmpty;
+}
+
+<h1>Your Order</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Item1.ArticleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Item1.Category)
+                </th>
+                <th class="text-center">
+                    Image
+                </th>
+                <th>
+                    In The Cart
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Item1.ArticlePrice)
+                </th>
+                <th class="text-right" style="font-size: large">
+                    Sum
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item1.ArticleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item1.Category.CategoryName)
+                    </td>
+                    <td>
+                        <img src="@Url.Content(item.Item1.ImageFilename)" alt="Image" style="width: 100px; height: 100px;" />
+                    </td>
+                    <td class="text-center" style="font-size: large">
+                        @Html.DisplayFor(modelItem => item.Item2)
+                    </td>
+                    <td class="text-center" style="font-size: large">
+                        @Html.DisplayFor(modelItem => item.Item1.ArticlePrice)
+                    </td>
+                    <td>
+                        <p class="text-right" style="font-size: large">
+                            <b>@(item.Item1.ArticlePrice * item.Item2) zł</b>
+                        </p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right" style="font-size: xx-large">
+        <strong>TOTAL PRICE: </strong>
+        @ViewBag.cartValue zł
+    </div>

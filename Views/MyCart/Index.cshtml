@@ -1,0 +1,95 @@
+﻿@model List<(Lista12Semestr5.Models.Article, int)>
+
+@{
+    bool cartEmpty = ViewBag.cartEmpty;
+}
+
+<h1>Cart</h1>
+
+@if (!cartEmpty)
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Item1.ArticleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Item1.Category)
+                </th>
+                <th class="text-center">
+                    Image
+                </th>
+                <th></th>
+                <th>
+                    In The Cart
+                </th>
+                <th></th>
+                <th>
+                    @Html.DisplayNameFor(model => model[0].Item1.ArticlePrice)
+                </th>
+                <th></th>
+                <th class="text-right" style="font-size: large">
+                    Sum
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item1.ArticleName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Item1.Category.CategoryName)
+                    </td>
+                    <td>
+                        <img src="@Url.Content(item.Item1.ImageFilename)" alt="Image" style="width: 100px; height: 100px;" />
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="AddItem" asp-route-id="@item.Item1.ArticleId" style="font-size: xx-large">+</a>
+                    </td>
+                    <td class="text-center" style="font-size: large">
+                        @Html.DisplayFor(modelItem => item.Item2)
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="SubtractItem" asp-route-id="@item.Item1.ArticleId" style="font-size: xx-large">-</a>
+                    </td>
+                    <td class="text-center" style="font-size: large">
+                        @Html.DisplayFor(modelItem => item.Item1.ArticlePrice)
+                    </td>
+                    <td class="text-center">
+                        <a asp-action="RemoveItem" asp-route-id="@item.Item1.ArticleId" style="font-size: large">Remove</a>
+                    </td>
+                    <td>
+                        <p class="text-right" style="font-size: large">
+                            <b>@(item.Item1.ArticlePrice * item.Item2) zł</b>
+                        </p>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right" style="font-size: xx-large">
+        <strong>TOTAL PRICE: </strong>
+        @ViewBag.cartValue zł
+    </div>
+    <div class="text-right" style="font-size: xx-large">
+        <a asp-action="Order" style="font-size: large">Order</a>
+    </div>
+}
+else
+{
+    <div class="text-center" style="font-size: x-large">
+        <strong>YOUR CART IS EMPTY! </strong>
+        <p>If you want to see something here first you have to add something to  your cart</p>
+    </div>
+    <div class="text-center">
+        <p>
+            You can do it here! ----->
+            <a asp-area="" asp-controller="Shop" asp-action="Index">Here!</a>
+            &#60----- You can do it here!
+        </p>
+    </div>
+}

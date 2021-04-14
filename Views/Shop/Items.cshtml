@@ -1,0 +1,28 @@
+﻿@model Lista12Semestr5.Models.Category
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+
+@{
+    ViewData["Title"] = "Items In Category";
+}
+
+<div>
+    <h4>Articles</h4>
+    <hr />
+    <dl class="row">
+        <dd class="col-sm-10">
+            @foreach (var item in ViewData["Articles"] as IEnumerable<Article>)
+            {
+                <p><b>Name:</b> @item.ArticleName, <b>Price:</b> @item.ArticlePrice zł, <b>Image:</b></p>
+                <img src="@Url.Content(item.ImageFilename)" alt="Image" style="width: 100px; height: 100px;" />
+                @if (SignInManager.IsSignedIn(User) && User.IsInRole("RegularUser"))
+                {
+                    <a asp-action="AddToCart" asp-route-id="@item.ArticleId">Add To Cart</a>
+                }
+            }
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to Categories</a>
+</div>
